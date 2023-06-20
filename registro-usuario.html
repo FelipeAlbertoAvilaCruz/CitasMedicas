@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro de usuarios</title>
+  <style>
+    
+    .banner {
+  background-color: black;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner span {
+  cursor: pointer;
+}
+
+.rightSection span:not(:last-child) {
+  margin-right: 10px;
+}
+
+#saludOnline {
+  font-size: 20px;
+}
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h2 {
+      text-align: center;
+    }
+
+    .container label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .container input[type="text"],
+    .container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    .container input[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <span id="saludOnline" onclick="redirectTo('home.html')">Salud Online</span>
+    </span>
+  </div>
+  <br>
+  <div class="container">
+  <h1>Registro de usuarios</h1>
+  <form id="registroForm">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" required><br><br>
+    
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" required><br><br>
+    
+    <input type="submit" value="Registrar">
+  </form>
+  </div>
+  <script>
+    document.getElementById("registroForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      var nombre = document.getElementById("nombre").value;
+      var contrasena = document.getElementById("contrasena").value;
+      
+      if (nombre && contrasena) {
+        var usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        
+        var usuarioExistente = usuarios.find(function(usuario) {
+          return usuario.nombre === nombre;
+        });
+        
+        if (usuarioExistente) {
+          alert("El nombre de usuario ya está registrado. Por favor, elige otro nombre.");
+        } else {
+          var nuevoUsuario = {
+            nombre: nombre,
+            contrasena: contrasena,
+            citas: []
+          };
+          
+          usuarios.push(nuevoUsuario);
+          localStorage.setItem("usuarios", JSON.stringify(usuarios));
+          
+          alert("Usuario registrado correctamente");
+          window.location.href = "home.html";
+        }
+      } else {
+        alert("Por favor, completa todos los campos");
+      }
+    });
+
+    function redirectTo(page) {
+  window.location.href = page;
+}
+  </script>
+</body>
+</html>

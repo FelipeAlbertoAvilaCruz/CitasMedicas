@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bienvenido Usuario</title>
+  <style>
+
+.banner {
+  background-color: black;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner span {
+  cursor: pointer;
+}
+
+.rightSection span:not(:last-child) {
+  margin-right: 10px;
+}
+
+#saludOnline {
+  font-size: 20px;
+}
+
+    body {
+      background-color: #f1f1f1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 100px auto;
+      text-align: center;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: #333333;
+    }
+    
+    p {
+      color: #666666;
+      margin-bottom: 20px;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: #ffffff;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 0 10px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+    <div class="banner">
+        <span id="saludOnline" onclick="redirectTo('home.html')">Salud Online</span>
+    </span>
+</div>
+        <div class="container">
+            <h1>Bienvenido a Salud Online</h1>
+            <p>Somos un consultorio médico especializado en brindar atención de calidad a nuestros pacientes.</p>
+            <img src="similares.jpg" alt="Imagen 1">
+            <p>Ofrecemos una amplia gama de servicios médicos, incluyendo:</p>
+            <p>Selecciona una opción:</p>
+            <div class="button-container">
+              <a class="button" href="registro-usuario.html">Registrar Usuario</a>
+              <a class="button" href="login.html">Iniciar Sesion</a>
+              <a class="button" href="contacto.html">Contacto</a>
+            </div>
+        </div>
+  <script>
+    function redirectTo(page) {
+      window.location.href = page;
+    }
+    </script>
+</body>
+</html>

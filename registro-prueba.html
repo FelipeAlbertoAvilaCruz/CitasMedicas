@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iniciar sesión</title>
+  <style>
+  .banner {
+  background-color: black;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner span {
+  cursor: pointer;
+}
+
+.rightSection span:not(:last-child) {
+  margin-right: 10px;
+}
+
+#saludOnline {
+  font-size: 20px;
+}
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h2 {
+      text-align: center;
+    }
+
+    .container label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .container input[type="text"],
+    .container select[id = "horaSugerida"],
+    .container select[id = "doctor"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    .container input[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <span id="saludOnline" onclick="redirectTo('home-login.html')">Salud Online</span>
+  </div>
+  <br>
+  <div class="container">
+  <h1>Registrar cita</h1>
+  <form id="citaForm">
+    <label for="motivo">Motivo de consulta:</label>
+    <input type="text" id="motivo" required><br>
+    
+    <label for="horaSugerida">Hora sugerida:</label>
+    <select id="horaSugerida" required>
+      <option value="">Selecciona una hora</option>
+    </select><br><br>
+
+    <label for="doctor">Doctor:</label>
+    <select id="doctor" required>
+      <option value="">Selecciona un doctor</option>
+      <option value="Dr. Juan Pérez - Pediatría">Dr. Juan Pérez - Pediatría</option>
+      <option value="Dr. Luis Gómez - Cardiología">Dr. Luis Gómez - Cardiología</option>
+      <option value="Dr. Carlos Rodríguez - Dermatología">Dr. Carlos Rodríguez - Dermatología</option>
+      <option value="Dr. Alfredo López - Ginecología">Dr. Alfredo López - Ginecología</option>
+    </select><br><br>
+
+    
+    <input type="submit" value="Registrar cita">
+  </form>
+  </div>
+  <script>
+    var usuarioActual = JSON.parse(localStorage.getItem("usuarioActual")) || {};
+
+    document.getElementById("citaForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  
+  var motivo = document.getElementById("motivo").value;
+  var horaSugerida = document.getElementById("horaSugerida").value;
+  var doctor = document.getElementById("doctor").value;
+  
+  if (motivo && horaSugerida && doctor) {
+    var citasPorUsuario = JSON.parse(localStorage.getItem("citasPorUsuario")) || {};
+    
+    var citasUsuarioActual = citasPorUsuario[usuarioActual.nombre] || [];
+    
+    var nuevaCita = {
+      usuario: usuarioActual.nombre,
+      motivo: motivo,
+      horaSugerida: horaSugerida,
+      doctor: doctor,
+      situacion: "Por Aprobar"
+    };
+    
+    citasUsuarioActual.push(nuevaCita);
+    citasPorUsuario[usuarioActual.nombre] = citasUsuarioActual;
+    
+    localStorage.setItem("citasPorUsuario", JSON.stringify(citasPorUsuario));
+    
+    alert("Cita registrada correctamente");
+    window.location.href = "muestra-prueba.html";
+  } else {
+    alert("Por favor, completa todos los campos");
+  }
+});
+
+    function redirectTo(page) {
+  window.location.href = page;
+}
+
+// Generar opciones para todas las horas del día en intervalos de 30 minutos
+var selectHoraSugerida = document.getElementById("horaSugerida");
+    var horasDia = [];
+    
+    for (var hour = 0; hour < 24; hour++) {
+      for (var minute = 0; minute < 60; minute += 30) {
+        var time = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2);
+        horasDia.push(time);
+      }
+    }
+    
+    for (var i = 0; i < horasDia.length; i++) {
+      var option = document.createElement("option");
+      option.value = horasDia[i];
+      option.text = horasDia[i];
+      selectHoraSugerida.appendChild(option);
+    }
+  </script>
+</body>
+</html>

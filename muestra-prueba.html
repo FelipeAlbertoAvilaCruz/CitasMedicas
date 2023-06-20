@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mis Citas</title>
+  <style>
+    .banner {
+  background-color: black;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner span {
+  cursor: pointer;
+}
+
+.rightSection span:not(:last-child) {
+  margin-right: 10px;
+}
+
+#saludOnline {
+  font-size: 20px;
+}
+
+body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0px;
+    }
+
+.container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+.container h2 {
+      text-align: center;
+    }
+
+.container label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <span id="saludOnline" onclick="redirectTo('home-login.html')">Salud Online</span>
+    </span>
+  </div>
+  <br>
+  <div class="container">
+  <h1>Mis Citas</h1>
+  <table id="citasTable">
+    <thead>
+      <tr>
+        <th>Motivo</th>
+        <th>Hora Sugerida</th>
+        <th>Doctor</th>
+        <th>Situacion</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <script>
+    var usuarioActual = JSON.parse(localStorage.getItem("usuarioActual")) || {};
+    var citasPorUsuario = JSON.parse(localStorage.getItem("citasPorUsuario")) || {};
+    var citasUsuarioActual = citasPorUsuario[usuarioActual.nombre] || [];
+
+    var citasTable = document.getElementById("citasTable");
+
+    citasUsuarioActual.forEach(function(cita) {
+      var row = citasTable.insertRow();
+      var motivoCell = row.insertCell();
+      var horaSugeridaCell = row.insertCell();
+      var doctorCell = row.insertCell();
+      var situacionCell = row.insertCell();
+      var accionesCell = row.insertCell();
+
+      motivoCell.textContent = cita.motivo;
+      horaSugeridaCell.textContent = cita.horaSugerida;
+      doctorCell.textContent = cita.doctor;
+      situacionCell.textContent = cita.situacion;
+      var borrarButton = document.createElement("button");
+      borrarButton.textContent = "Borrar Cita";
+      borrarButton.addEventListener("click", function() {
+        // Lógica para borrar la cita
+        var citasUsuarioActual = citasPorUsuario[usuarioActual.nombre];
+        var citaIndex = citasUsuarioActual.findIndex(function(c) {
+          return c.id === cita.id;
+        });
+        if (citaIndex !== -1) {
+          citasUsuarioActual.splice(citaIndex, 1);
+          localStorage.setItem("citasPorUsuario", JSON.stringify(citasPorUsuario));
+          row.remove();
+        }
+      });
+      accionesCell.appendChild(borrarButton);
+    });
+    function redirectTo(page) {
+  window.location.href = page;
+}
+  </script>
+</body>
+</html>
